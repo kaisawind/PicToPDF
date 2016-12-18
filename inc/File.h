@@ -20,6 +20,7 @@ public:
 	File(string path);
 	~File();
 	void setPath(string path);
+	vector<string> getFiles();
 
 private:
 	void procDirectory(string path);

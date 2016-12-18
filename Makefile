@@ -14,6 +14,9 @@ INCLUDES += -I./inc/
 INCLUDES += -I./
 
 #sources files (*.c *.cpp)
+SOURCES += ./src/Picture.cpp
+SOURCES += ./src/Bmp.cpp
+SOURCES += ./src/Images.cpp
 SOURCES += ./src/File.cpp
 SOURCES += ./main.cpp
 

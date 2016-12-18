@@ -77,3 +77,8 @@ bool File::procFilePath(string path)
 	}
 	return ret;
 }
+
+vector<string> File::getFiles()
+{
+	return m_files;
+}

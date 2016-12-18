@@ -10,9 +10,11 @@
 TARGET = pictopdf
 
 #head files   
-INCLUDES += -I./inc
+INCLUDES += -I./inc/
+INCLUDES += -I./
 
 #sources files (*.c *.cpp)
+SOURCES += ./src/File.cpp
 SOURCES += ./main.cpp
 
 #objects 
@@ -22,7 +24,8 @@ OBJECTS = $(patsubst %.cpp,%.o,$(SOURCES))
 MY_LIBS_PATH += 
 
 #libs
-MY_LIBS += -lSDL2
+#MY_LIBS += -lSDL2
+MY_LIBS +=
 
 
 export DEBUG
@@ -36,27 +39,27 @@ RM = rm -f
 #C's flags
 CFLAGS = -g -Wall -O0
 #c++'s flags
-CXXFLAGS = -g -Wall -std=c++11
+CXXFLAGS = -g -Wall 
 
 .PHONY:all
 #all projects will be compiled
-all: $(TARGET)
-$(TARGET) : $(OBJECTS)
-	$(CXX) $(CXXFLAGS) $(SOURCES) $(MY_LIBS_PATH) $(MY_LIBS) -o $@ 
+all: objs $(TARGET)
+$(TARGET) :
+	$(CXX) $(OBJECTS) $(CXXFLAGS) $(MY_LIBS_PATH) $(MY_LIBS) $(INCLUDES) -o $@ 
 
 #all objects will be compiled
 objs:$(OBJECTS)
 %.o : %.c  
-	$(CC) $< -o $@ $(MY_LIBS_PATH) $(MY_LIBS)
+	$(CC) -c $< -o $@ $(INCLUDES)
 
 %.o : %.C  
-	$(CC) $< -o $@ $(MY_LIBS_PATH) $(MY_LIBS)
+	$(CC) -c $< -o $@ $(INCLUDES)
 
 %.o : %.cpp 
-	$(CXX) $< -o $@ $(MY_LIBS_PATH) $(MY_LIBS)
+	$(CXX) -c $< -o $@ $(INCLUDES)
 
 %.o : %.CPP
-	$(CXX) $< -o $@ $(MY_LIBS_PATH) $(MY_LIBS)
+	$(CXX) -c $< -o $@ $(INCLUDES)
 
 #clean all objects and targets
 clean:

@@ -1,15 +1,26 @@
 #include "Bmp.h"
+#include <string.h>
 
 Bmp::Bmp(string image) : Picture(image)
 {
 	m_isbmpfile =  false;
 	m_bmpsize = 0;
+	m_infosize = 0;
+	m_width = 0;
+	m_height = 0;
+	m_bitCount = 0;
+	m_offBits = 0;
 }
 
 Bmp::Bmp() : Picture()
 {
 	m_isbmpfile =  false;
 	m_bmpsize = 0;
+	m_infosize = 0;
+	m_width = 0;
+	m_height = 0;
+	m_bitCount = 0;
+	m_offBits = 0;
 }
 
 void Bmp::procPicture()
@@ -26,9 +37,10 @@ void Bmp::readHeader()
 	char* buffer = new char[size];
 	readPicture(0, size, buffer);
 
-	BITMAPFILEHEADER *bmphead = (BITMAPFILEHEADER*) buffer;
+	BITMAPFILEHEADER *bmphead = (BITMAPFILEHEADER*)buffer;
 
-	if (bmphead->bfType == BMPTYPE)
+	if ((bmphead->bfType[0] == 0x42) && 
+		(bmphead->bfType[1] == 0x4D))
 	{
 		m_isbmpfile = true;
 	}
@@ -36,13 +48,16 @@ void Bmp::readHeader()
 	{
 		m_isbmpfile = false;
 	}
-	printf("bfType:%x \n", bmphead->bfType);
-	printf("m_isbmpfile:%d \n", m_isbmpfile);
-	m_bmpsize = SWAP_32(bmphead->bfSize);
 
-	m_offBits = SWAP_32(bmphead->bfOffBits);
+	m_bmpsize |= bmphead->bfSize[0];
+	m_bmpsize |= bmphead->bfSize[1] << 8;
+	m_bmpsize |= bmphead->bfSize[2] << 16;
+	m_bmpsize |= bmphead->bfSize[3] << 24;
 
-	printf("m_bmpsize:%d m_offBits:%d\n", m_bmpsize, m_offBits);
+	m_offBits |= bmphead->bfOffBits[0];
+	m_offBits |= bmphead->bfOffBits[1] << 8;
+	m_offBits |= bmphead->bfOffBits[2] << 16;
+	m_offBits |= bmphead->bfOffBits[3] << 24;
 
 	delete[] buffer;
 
@@ -57,12 +72,23 @@ void Bmp::readInfo()
 
 	BITMAPINFOHEADER *bmpinfo = (BITMAPINFOHEADER*) buffer;
 
-	m_infosize = SWAP_32(bmpinfo->biSize);
-	m_width = SWAP_32(bmpinfo->biWidth);
-	m_height = SWAP_32(bmpinfo->biHeight);
-	m_bitCount = SWAP_16(bmpinfo->biBitCount);
+	m_infosize |= bmpinfo->biSize[0];
+	m_infosize |= bmpinfo->biSize[1] << 8;
+	m_infosize |= bmpinfo->biSize[2] << 16;
+	m_infosize |= bmpinfo->biSize[3] << 24;
 
-	printf("m_infosize:%d m_width:%d m_height:%d m_bitCount:%d\n", m_infosize, m_width, m_height, m_bitCount);
+	m_width |= bmpinfo->biWidth[0];
+	m_width |= bmpinfo->biWidth[1] << 8;
+	m_width |= bmpinfo->biWidth[2] << 16;
+	m_width |= bmpinfo->biWidth[3] << 24;
+
+	m_height |= bmpinfo->biHeight[0];
+	m_height |= bmpinfo->biHeight[1] << 8;
+	m_height |= bmpinfo->biHeight[2] << 16;
+	m_height |= bmpinfo->biHeight[3] << 24;
+
+	m_bitCount |= bmpinfo->biBitCount[0];
+	m_bitCount |= bmpinfo->biBitCount[1] << 8;
 
 	delete[] buffer;
 

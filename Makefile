@@ -44,6 +44,8 @@ CFLAGS = -g -Wall -O0
 #c++'s flags
 CXXFLAGS = -g -Wall 
 
+DEINFE = -DDEUBG
+
 .PHONY:all
 #all projects will be compiled
 all: objs $(TARGET)
@@ -53,16 +55,16 @@ $(TARGET) :
 #all objects will be compiled
 objs:$(OBJECTS)
 %.o : %.c  
-	$(CC) -c $< -o $@ $(INCLUDES)
+	$(CC) -c $< -o $@ $(INCLUDES) $(DEINFE)
 
 %.o : %.C  
-	$(CC) -c $< -o $@ $(INCLUDES)
+	$(CC) -c $< -o $@ $(INCLUDES) $(DEINFE)
 
 %.o : %.cpp 
-	$(CXX) -c $< -o $@ $(INCLUDES)
+	$(CXX) -c $< -o $@ $(INCLUDES) $(DEINFE)
 
 %.o : %.CPP
-	$(CXX) -c $< -o $@ $(INCLUDES)
+	$(CXX) -c $< -o $@ $(INCLUDES) $(DEINFE)
 
 #clean all objects and targets
 clean:

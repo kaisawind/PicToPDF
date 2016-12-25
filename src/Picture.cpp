@@ -37,7 +37,10 @@ void Picture::readPicture(int from , int size, char* buffer)
 		return ;
 	}
 
-	int totalsize = file.tellg();
+	int filebeg = file.tellg();
+	file.seekg (0, ios::end); 
+	int fileend = file.tellg();
+	int totalsize = fileend - filebeg;
 
 	if (from >= totalsize)
 	{

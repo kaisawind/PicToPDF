@@ -24,7 +24,7 @@ void Images::setImages(vector<string> files)
 		string extension = extensions[extenlen - 1];
 
 		IMAGE image;
-		printf("%s \n", extension.c_str());
+
 		if (extension == "jpg")
 		{
 			image.type = IMAGE_JPG;
@@ -61,8 +61,6 @@ void Images::procImages()
 {
 	for (auto image : m_images)
 	{
-		printf("%d \n", image.type);
-		printf("%s \n", image.path.c_str());
 		switch (image.type)
 		{
 		case IMAGE_JPG:

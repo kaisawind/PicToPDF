@@ -5,6 +5,7 @@
 #include <vector>
 #include "Picture.h"
 #include "Bmp.h"
+#include "Jpg.h"
 
 using namespace std;
 

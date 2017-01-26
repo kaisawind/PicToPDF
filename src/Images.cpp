@@ -61,13 +61,14 @@ void Images::procImages()
 {
 	for (auto image : m_images)
 	{
+		printf("%s %d %d\n", __func__, __LINE__, image.type);
 		switch (image.type)
 		{
 		case IMAGE_JPG:
 		{
-			Bmp* bmp = new Bmp(image.path);
+			Jpg* jpg = new Jpg(image.path);
 			
-			bmp->procPicture();
+			jpg->procPicture();
 		}
 			break;
 		case IMAGE_BMP:
